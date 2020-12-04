@@ -1,0 +1,11 @@
+<launch>
+  <!---
+  <node name="msf_odometry_node" pkg="indoor_localization" type="msf_odometry"  output="screen" clear_params="true">
+	    <rosparam file="$(find indoor_localization)/config/default.yaml" command="load" />
+  </node>
+  -->
+  <node name="pf_localization_node" pkg="indoor_localization" type="pf_localization"  output="screen" clear_params="true">
+		  <rosparam file="$(find indoor_localization)/config/default.yaml" command="load" />
+  </node>
+  
+</launch>
