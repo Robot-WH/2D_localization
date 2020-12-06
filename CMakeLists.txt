@@ -56,13 +56,15 @@ include_directories(
   ${OpenCV_INCLUDE_DIRS}
 )
 
-# 生成共享库  .so  
-add_library(${PROJECT_NAME} SHARED
-  src/pf_localizer.cpp
-  src/motion_Model.cpp
-  src/measurement_Model.cpp
+add_library( scanMatch SHARED
   src/ScanMatchers/GaussionNewton.cpp
   src/ScanMatchers/imls_icp.cpp
+)
+
+add_library( ${PROJECT_NAME} SHARED
+  src/ParticleFilter/measurement_Model.cpp
+  src/ParticleFilter/pf_localizer.cpp
+  src/ParticleFilter/motion_Model.cpp
 )
 
 target_link_libraries(${PROJECT_NAME}
@@ -74,15 +76,15 @@ target_link_libraries(${PROJECT_NAME}
 )
 
 
-add_executable(pf_localization app/pf_localization_node.cpp)
+add_executable(pf_localization app/localization/pf_localization_node.cpp)
 target_link_libraries(pf_localization
-  ${catkin_LIBRARIES}
   ${PROJECT_NAME}
+  scanMatch
 )
 
-add_executable(msf_odometry app/msf_odometry_node.cpp)
+add_executable(msf_odometry app/localization/msf_odometry_node.cpp)
 target_link_libraries(msf_odometry
-  ${catkin_LIBRARIES}
   ${PROJECT_NAME}
+  scanMatch
 )
 
